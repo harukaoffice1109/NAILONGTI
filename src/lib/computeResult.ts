@@ -29,6 +29,45 @@ function patternToVector(pattern: string): number[] | null {
   return compact.split('').map((item) => levelValue[item as Level]);
 }
 
+function getType(code: string): NilongType | undefined {
+  return nilongTypes.find((type) => type['奶龙TI_code'] === code);
+}
+
+function isLevelAtLeast(level: Level, target: Level): boolean {
+  return levelValue[level] >= levelValue[target];
+}
+
+function resolveHiddenType(answers: Answers, levels: Record<string, Level>): NilongType | undefined {
+  const wantsMutation = answers.secret_q2 === 3;
+  const abstractHit = answers.secret_q1 === 3;
+  if (!wantsMutation) return undefined;
+
+  const high = (dimensionId: string) => levels[dimensionId] === 'H';
+  const midOrHigh = (dimensionId: string) => isLevelAtLeast(levels[dimensionId], 'M');
+
+  if (abstractHit && high('F1') && high('F3') && high('C2') && (high('D1') || high('D3')) && midOrHigh('S3')) {
+    return getType('NL-SIS');
+  }
+
+  if (abstractHit && high('N2') && high('F1') && high('F3') && high('C2') && midOrHigh('S3') && levels.D1 !== 'H') {
+    return getType('NL-JIAHAO');
+  }
+
+  if (abstractHit && high('F2') && high('S2') && high('S3')) {
+    return getType('NL-DRUNK');
+  }
+
+  if (abstractHit && high('F2') && high('C2')) {
+    return getType('NL-HHHH');
+  }
+
+  if (abstractHit && high('D1') && high('S3')) {
+    return getType('NL-FW');
+  }
+
+  return undefined;
+}
+
 export function computeResult(answers: Answers): ComputedResult {
   const scores: Record<string, number> = Object.fromEntries(dimensions.map((dim) => [dim.id, 0]));
 
@@ -45,8 +84,8 @@ export function computeResult(answers: Answers): ComputedResult {
     dimensions.map((dim) => [dim.id, scoreToLevel(scores[dim.id] || 0)]),
   );
 
-  const hiddenType = nilongTypes.find((type) => type['奶龙TI_code'] === 'NL-DRUNK');
-  if (answers.secret_q1 === 3 && answers.secret_q2 === 3 && hiddenType) {
+  const hiddenType = resolveHiddenType(answers, levels);
+  if (hiddenType) {
     return { type: hiddenType, levels, scores, similarity: 100, exact: dimensions.length, ranked: [], reason: 'hidden' };
   }
 

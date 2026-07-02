@@ -65,7 +65,7 @@ function Nav({ onHome, onTypes, onStart }: { onHome: () => void; onTypes: () => 
     <header className="nav">
       <button className="logo" onClick={onHome}>奶龙TI</button>
       <nav>
-        <button onClick={onTypes}>27类型图鉴</button>
+        <button onClick={onTypes}>奶龙图鉴</button>
         <button className="primary small" onClick={onStart}>开始测试</button>
       </nav>
     </header>
@@ -81,7 +81,7 @@ function Home({ onStart, onTypes }: { onStart: () => void; onTypes: () => void }
         <p className="subtitle">30道题检测你的奶味、龙性、发疯程度、生存姿势和群聊污染力。结果可能难听，但也许有点准。</p>
         <div className="ctaRow">
           <button className="primary" onClick={onStart}>开始接受奶龙判决</button>
-          <button className="ghost" onClick={onTypes}>先看27种奶龙</button>
+          <button className="ghost" onClick={onTypes}>先看奶龙图鉴</button>
         </div>
       </div>
       <div className="heroCard">
@@ -90,8 +90,8 @@ function Home({ onStart, onTypes }: { onStart: () => void; onTypes: () => void }
         <div className="ticker">奶逼龙 · 废奶 · 卧奶 · 孤奶 · 哈奶 · 草奶</div>
       </div>
       <div className="featureGrid">
-        <Feature title="30题" text="15维度，每维2题，按SBTI式pattern匹配。" />
-        <Feature title="27类型" text="套壳SBTI人格坑位，奶龙化恶搞重写。" />
+        <Feature title="30题" text="15维度，每维2题，按奶龙画像匹配结果。" />
+        <Feature title="主线+隐藏人格" text="普通人格之外，还有变异奶龙彩蛋结果。" />
         <Feature title="本地计算" text="不登录、不上传答案，浏览器里直接出结果。" />
       </div>
     </section>
@@ -182,8 +182,8 @@ function DimensionPanel({ result }: { result: ComputedResult }) {
 function TypesScreen() {
   return (
     <section className="typesPage">
-      <h1>27种奶龙TI图鉴</h1>
-      <p>这些不是温柔人格，是系统给群友下的抽象判决。</p>
+      <h1>奶龙TI图鉴</h1>
+      <p>包含主线人格与隐藏变异人格；这些不是温柔人格，是系统给群友下的抽象判决。</p>
       <div className="typeGrid">
         {nilongTypes.map((type) => (
           <article className="typeCard" key={type['奶龙TI_code']}>
