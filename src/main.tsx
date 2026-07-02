@@ -76,7 +76,7 @@ function Home({ onStart, onTypes }: { onStart: () => void; onTypes: () => void }
   return (
     <section className="hero">
       <div className="heroText">
-        <p className="eyebrow"><Sparkles size={18} /> 纯前端本地计算 · 仅供娱乐 · 测完不准破防</p>
+        <p className="eyebrow"><Sparkles size={18} /> 仅供娱乐 · 测完不准破防</p>
         <h1>测测你是哪种<br />离谱奶龙</h1>
         <p className="subtitle">30道题检测你的奶味、龙性、发疯程度、生存姿势和群聊污染力。结果可能难听，但也许有点准。</p>
         <div className="ctaRow">
@@ -85,14 +85,14 @@ function Home({ onStart, onTypes }: { onStart: () => void; onTypes: () => void }
         </div>
       </div>
       <div className="heroCard">
-        <div className="bigDragon">奶</div>
+        <img className="bigDragon" src="/images/types/NL-JIAHAO.png" alt="嘉豪奶" />
         <h2>你的奶龙TI人格可能是</h2>
         <div className="ticker">奶逼龙 · 废奶 · 卧奶 · 孤奶 · 哈奶 · 草奶</div>
       </div>
       <div className="featureGrid">
         <Feature title="30题" text="15维度，每维2题，按奶龙画像匹配结果。" />
         <Feature title="主线+隐藏人格" text="普通人格之外，还有变异奶龙彩蛋结果。" />
-        <Feature title="本地计算" text="不登录、不上传答案，浏览器里直接出结果。" />
+
       </div>
     </section>
   );
