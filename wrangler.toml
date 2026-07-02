@@ -1,0 +1,10 @@
+[build]
+command = "npm run build"
+cwd = "."
+watch_dir = "src"
+
+[build.environment]
+NODE_VERSION = "20"
+
+[site]
+bucket = "./dist"
