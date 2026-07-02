@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+  <defs><filter id="shadow"><feDropShadow dx="0" dy="16" stdDeviation="18" flood-opacity=".25"/></filter></defs>
+  <rect width="800" height="800" rx="80" fill="#17120a"/>
+  <circle cx="400" cy="400" r="310" fill="#fb7185" opacity=".22"/>
+  <g filter="url(#shadow)">
+    <ellipse cx="400" cy="430" rx="220" ry="250" fill="#ffd24d"/>
+    <circle cx="315" cy="330" r="36" fill="#111827"/>
+    <circle cx="485" cy="330" r="36" fill="#111827"/>
+    <path d="M310 500 Q400 590 500 500" fill="none" stroke="#111827" stroke-width="28" stroke-linecap="round"/>
+    <path d="M245 230 L195 145 L300 198" fill="#ffd24d"/>
+    <path d="M555 230 L605 145 L500 198" fill="#ffd24d"/>
+    <path d="M570 445 Q680 500 610 585" fill="none" stroke="#ffd24d" stroke-width="52" stroke-linecap="round"/>
+  </g>
+  <text x="400" y="94" text-anchor="middle" font-size="54" font-family="Arial, PingFang SC, sans-serif" font-weight="900" fill="#fff">NL-DRUNK</text>
+  <text x="400" y="705" text-anchor="middle" font-size="72" font-family="Arial, PingFang SC, sans-serif" font-weight="900" fill="#fff">酒奶</text>
+  <text x="400" y="760" text-anchor="middle" font-size="25" font-family="Arial, PingFang SC, sans-serif" fill="#fff" opacity=".85">占位图｜待替换正式图片</text>
+</svg>
