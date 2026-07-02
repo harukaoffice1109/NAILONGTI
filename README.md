@@ -57,6 +57,19 @@ npm run verify:data
 npm run verify:http
 ```
 
+## Cloudflare Pages 部署
+
+在 Cloudflare Pages 中使用静态站点部署，不要使用 Workers Sites。
+
+```text
+Build command: npm run build
+Build output directory: dist
+Root directory: /
+Node.js version: 20
+```
+
+本项目不需要 `@cloudflare/vite-plugin`，也不需要 Worker 入口文件。
+
 ## 图片资源
 
 结果主图位于：
