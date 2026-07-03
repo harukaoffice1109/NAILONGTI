@@ -14,7 +14,6 @@
     "verify:deploy": "node scripts/verify-deploy-output.mjs"
   },
   "dependencies": {
-    "@types/qrcode": "^1.5.6",
     "@vitejs/plugin-react": "latest",
     "lucide-react": "latest",
     "qrcode": "^1.5.4",
@@ -24,6 +23,7 @@
     "vite": "latest"
   },
   "devDependencies": {
+    "@types/qrcode": "^1.5.6",
     "@types/react": "latest",
     "@types/react-dom": "latest"
   }

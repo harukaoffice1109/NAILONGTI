@@ -1,14 +1,28 @@
 import QRCode from 'qrcode';
 import type { NilongType } from '../data/types';
+import { SITE_URL } from './share';
 
-const SITE_URL = 'https://nailongti.pages.dev';
+export async function createShareCardBlob(type: NilongType, tags: readonly string[], imageSrc?: string): Promise<Blob> {
+  const canvas = await drawShareCard(type, tags, imageSrc);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error('Failed to render share card'));
+    }, 'image/png');
+  });
+}
 
-export async function downloadShareCard(type: NilongType, tags: readonly string[], imageSrc?: string): Promise<void> {
+export async function createShareCardDataUrl(type: NilongType, tags: readonly string[], imageSrc?: string): Promise<string> {
+  const canvas = await drawShareCard(type, tags, imageSrc);
+  return canvas.toDataURL('image/png');
+}
+
+async function drawShareCard(type: NilongType, tags: readonly string[], imageSrc?: string): Promise<HTMLCanvasElement> {
   const canvas = document.createElement('canvas');
   canvas.width = 900;
   canvas.height = 1400;
   const ctx = canvas.getContext('2d');
-  if (!ctx) return;
+  if (!ctx) throw new Error('Canvas is unavailable');
 
   const gradient = ctx.createLinearGradient(0, 0, 900, 1400);
   gradient.addColorStop(0, '#211300');
@@ -40,7 +54,7 @@ export async function downloadShareCard(type: NilongType, tags: readonly string[
       ctx.save();
       roundRect(ctx, 230, 465, 440, 440, 44);
       ctx.clip();
-      ctx.drawImage(image, 230, 465, 440, 440);
+      drawCoverImage(ctx, image, 230, 465, 440, 440);
       ctx.restore();
     } catch {
       // If loading fails, text-only share card still works.
@@ -52,22 +66,18 @@ export async function downloadShareCard(type: NilongType, tags: readonly string[
   wrapText(ctx, type.description, 450, 965, 700, 42, 5);
 
   ctx.fillStyle = '#111827';
-  roundRect(ctx, 145, 1120, 610, 86, 40);
+  roundRect(ctx, 130, 1120, 560, 86, 40);
   ctx.fill();
   ctx.fillStyle = '#fde047';
-  ctx.font = '800 32px system-ui, sans-serif';
-  ctx.fillText(tags.join(' · ') || '抽象 · 奶味 · 变异', 450, 1175);
+  ctx.font = '800 30px system-ui, sans-serif';
+  ctx.fillText(tags.join(' · ') || '抽象 · 奶味 · 变异', 410, 1175);
 
   ctx.fillStyle = '#fff';
   ctx.font = '600 30px system-ui, sans-serif';
-  ctx.fillText('测测你是哪种离谱奶龙', 390, 1265);
+  ctx.fillText('测测你是哪种离谱奶龙', 370, 1265);
 
-  await drawQrCode(ctx, 645, 1210, 118);
-
-  const link = document.createElement('a');
-  link.download = `NailongTI-${type['奶龙TI_code']}.png`;
-  link.href = canvas.toDataURL('image/png');
-  link.click();
+  await drawQrCode(ctx, 650, 1194, 132);
+  return canvas;
 }
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number): void {
@@ -78,6 +88,25 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: n
   ctx.arcTo(x, y + height, x, y, radius);
   ctx.arcTo(x, y, x + width, y, radius);
   ctx.closePath();
+}
+
+function drawCoverImage(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number): void {
+  const imageRatio = image.naturalWidth / image.naturalHeight;
+  const boxRatio = width / height;
+  let sx = 0;
+  let sy = 0;
+  let sw = image.naturalWidth;
+  let sh = image.naturalHeight;
+
+  if (imageRatio > boxRatio) {
+    sw = image.naturalHeight * boxRatio;
+    sx = (image.naturalWidth - sw) / 2;
+  } else {
+    sh = image.naturalWidth / boxRatio;
+    sy = (image.naturalHeight - sh) / 2;
+  }
+
+  ctx.drawImage(image, sx, sy, sw, sh, x, y, width, height);
 }
 
 async function drawQrCode(ctx: CanvasRenderingContext2D, x: number, y: number, size: number): Promise<void> {
@@ -93,13 +122,13 @@ async function drawQrCode(ctx: CanvasRenderingContext2D, x: number, y: number, s
 
   const qrImage = await loadImage(dataUrl);
   ctx.fillStyle = '#ffffff';
-  roundRect(ctx, x - 8, y - 8, size + 16, size + 16, 18);
+  roundRect(ctx, x - 10, y - 10, size + 20, size + 48, 20);
   ctx.fill();
   ctx.drawImage(qrImage, x, y, size, size);
-  ctx.fillStyle = '#fef3c7';
-  ctx.font = '700 18px system-ui, sans-serif';
+  ctx.fillStyle = '#111827';
+  ctx.font = '800 18px system-ui, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('扫码开测', x + size / 2, y + size + 34);
+  ctx.fillText('扫码开测', x + size / 2, y + size + 30);
 }
 
 function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines = 4): void {
@@ -124,6 +153,7 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image();
+    image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = reject;
     image.src = src;

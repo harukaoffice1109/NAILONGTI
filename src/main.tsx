@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Flame, RotateCcw, Share2, Sparkles, Trophy } from 'lucide-react';
+import { Copy, Flame, ImageDown, RotateCcw, Share2, Sparkles, Trophy, X } from 'lucide-react';
 import { questions, specialQuestions } from './data/questions';
 import { dimensions } from './data/dimensions';
 import { nilongTypes } from './data/types';
 import { computeResult, type Answers, type ComputedResult } from './lib/computeResult';
-import { downloadShareCard } from './lib/shareCard';
+import { createShareCardBlob, createShareCardDataUrl } from './lib/shareCard';
+import { copySiteLink, shareImage, shareSite } from './lib/share';
 import { pickTypeImage } from './lib/typeImages';
 import './styles.css';
 
@@ -135,6 +136,39 @@ function ResultScreen({ result, onRestart, onTypes }: { result: ComputedResult; 
   const type = result.type;
   const tags = type.tags || [];
   const selectedImage = useMemo(() => pickTypeImage(type), [type]);
+  const [notice, setNotice] = useState('');
+  const [sharePreview, setSharePreview] = useState('');
+  const [isCreatingCard, setIsCreatingCard] = useState(false);
+
+  async function handleShareSite() {
+    const status = await shareSite(type['奶龙TI类型名']);
+    setNotice(status === 'shared' ? '分享面板已打开' : status === 'copied' ? '链接已复制，发给朋友开测' : '分享已取消');
+  }
+
+  async function handleCopyLink() {
+    const status = await copySiteLink();
+    setNotice(status === 'copied' ? '链接已复制' : '复制失败，请手动复制网址');
+  }
+
+  async function handleCreateCard() {
+    setIsCreatingCard(true);
+    try {
+      const blob = await createShareCardBlob(type, tags, selectedImage);
+      const shared = await shareImage(blob, type['奶龙TI类型名']);
+      if (shared === 'shared') {
+        setNotice('结果图分享面板已打开');
+        return;
+      }
+      const dataUrl = await createShareCardDataUrl(type, tags, selectedImage);
+      setSharePreview(dataUrl);
+      setNotice('长按图片保存，或直接截图分享');
+    } catch {
+      setNotice('结果图生成失败，请直接截图分享');
+    } finally {
+      setIsCreatingCard(false);
+    }
+  }
+
   return (
     <section className="resultPage">
       <article className="resultCard">
@@ -149,15 +183,31 @@ function ResultScreen({ result, onRestart, onTypes }: { result: ComputedResult; 
             <span>相似度 {result.similarity}%</span>
             <span>{result.reason === 'hidden' ? '隐藏触发' : result.reason === 'fallback' ? '兜底结果' : 'pattern匹配'}</span>
           </div>
-          <div className="ctaRow">
-            <button className="primary" onClick={() => downloadShareCard(type, tags, selectedImage)}><Share2 size={18} /> 下载分享卡</button>
+          <div className="ctaRow resultActions">
+            <button className="primary" onClick={handleShareSite}><Share2 size={18} /> 分享给朋友</button>
+            <button className="ghost" onClick={handleCreateCard} disabled={isCreatingCard}><ImageDown size={18} /> {isCreatingCard ? '生成中' : '生成结果图'}</button>
+            <button className="ghost" onClick={handleCopyLink}><Copy size={18} /> 复制链接</button>
             <button className="ghost" onClick={onRestart}><RotateCcw size={18} /> 再测一次</button>
             <button className="ghost" onClick={onTypes}>看图鉴</button>
           </div>
+          {notice && <p className="notice">{notice}</p>}
         </div>
       </article>
       <DimensionPanel result={result} />
+      {sharePreview && <SharePreview imageUrl={sharePreview} onClose={() => setSharePreview('')} />}
     </section>
+  );
+}
+
+function SharePreview({ imageUrl, onClose }: { imageUrl: string; onClose: () => void }) {
+  return (
+    <div className="shareModal" role="dialog" aria-modal="true" aria-label="结果图预览">
+      <div className="shareModalPanel">
+        <button className="modalClose" onClick={onClose} aria-label="关闭结果图预览"><X size={22} /></button>
+        <img src={imageUrl} alt="奶龙TI结果分享图" />
+        <p>长按图片保存，或直接截图分享。二维码扫出来就是 nailongti.pages.dev</p>
+      </div>
+    </div>
   );
 }
 
