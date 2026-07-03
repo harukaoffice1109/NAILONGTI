@@ -138,14 +138,25 @@ function ResultScreen({ result, onRestart, onTypes }: { result: ComputedResult; 
   const selectedImage = useMemo(() => pickTypeImage(type), [type]);
   const [notice, setNotice] = useState('');
   const [sharePreview, setSharePreview] = useState('');
+  const [showWeChatGuide, setShowWeChatGuide] = useState(false);
   const [isCreatingCard, setIsCreatingCard] = useState(false);
 
   async function handleShareSite() {
     const status = await shareSite(type['奶龙TI类型名']);
+    if (status === 'wechat-guide') {
+      setShowWeChatGuide(true);
+      setNotice('链接已复制');
+      return;
+    }
     setNotice(status === 'shared' ? '分享面板已打开' : status === 'copied' ? '链接已复制，发给朋友开测' : '分享已取消');
   }
 
   async function handleCopyLink() {
+    const status = await copySiteLink();
+    setNotice(status === 'copied' ? '链接已复制' : '复制失败，请手动复制网址');
+  }
+
+  async function handleCopyLinkFromModal() {
     const status = await copySiteLink();
     setNotice(status === 'copied' ? '链接已复制' : '复制失败，请手动复制网址');
   }
@@ -194,18 +205,40 @@ function ResultScreen({ result, onRestart, onTypes }: { result: ComputedResult; 
         </div>
       </article>
       <DimensionPanel result={result} />
-      {sharePreview && <SharePreview imageUrl={sharePreview} onClose={() => setSharePreview('')} />}
+      {sharePreview && <SharePreview imageUrl={sharePreview} onCopyLink={handleCopyLinkFromModal} onClose={() => setSharePreview('')} />}
+      {showWeChatGuide && <WeChatShareGuide onCopyLink={handleCopyLinkFromModal} onClose={() => setShowWeChatGuide(false)} />}
     </section>
   );
 }
 
-function SharePreview({ imageUrl, onClose }: { imageUrl: string; onClose: () => void }) {
+function SharePreview({ imageUrl, onCopyLink, onClose }: { imageUrl: string; onCopyLink: () => void; onClose: () => void }) {
   return (
     <div className="shareModal" role="dialog" aria-modal="true" aria-label="结果图预览">
       <div className="shareModalPanel">
         <button className="modalClose" onClick={onClose} aria-label="关闭结果图预览"><X size={22} /></button>
         <img src={imageUrl} alt="奶龙TI结果分享图" />
-        <p>长按图片保存，或直接截图分享。二维码扫出来就是 nailongti.pages.dev</p>
+        <p>长按图片保存，或直接截图分享。二维码可打开 nailongti.pages.dev</p>
+        <div className="modalActions">
+          <button className="primary" onClick={onCopyLink}><Copy size={18} /> 复制链接</button>
+          <button className="ghost" onClick={onClose}>关闭</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WeChatShareGuide({ onCopyLink, onClose }: { onCopyLink: () => void; onClose: () => void }) {
+  return (
+    <div className="shareModal" role="dialog" aria-modal="true" aria-label="微信分享引导">
+      <div className="shareModalPanel guidePanel">
+        <button className="modalClose" onClick={onClose} aria-label="关闭微信分享引导"><X size={22} /></button>
+        <div className="guideArrow">···</div>
+        <h2>链接已复制</h2>
+        <p>点击右上角菜单，选择“发送给朋友”或“分享到朋友圈”。也可以直接截图结果页发给朋友。</p>
+        <div className="modalActions">
+          <button className="primary" onClick={onClose}>我知道了</button>
+          <button className="ghost" onClick={onCopyLink}><Copy size={18} /> 再复制一次</button>
+        </div>
       </div>
     </div>
   );
