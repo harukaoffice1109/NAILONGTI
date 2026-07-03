@@ -15,7 +15,7 @@ export const nilongTypes = [
       "边界清晰",
       "压力接管"
     ],
-    "image": "/images/types/NL-CTRL.png"
+    "image": "/images/types/NL-CTRL.webp"
   },
   {
     "序号": 2,
@@ -33,7 +33,7 @@ export const nilongTypes = [
       "过度付出",
       "边界练习"
     ],
-    "image": "/images/types/NL-ATM.png"
+    "image": "/images/types/NL-ATM.webp"
   },
   {
     "序号": 3,
@@ -51,7 +51,7 @@ export const nilongTypes = [
       "逆袭幻想",
       "韧性低调"
     ],
-    "image": "/images/types/NL-DIOR.png"
+    "image": "/images/types/NL-DIOR.webp"
   },
   {
     "序号": 4,
@@ -69,7 +69,7 @@ export const nilongTypes = [
       "主导倾向",
       "决策快"
     ],
-    "image": "/images/types/NL-BOSS.png"
+    "image": "/images/types/NL-BOSS.webp"
   },
   {
     "序号": 5,
@@ -87,7 +87,7 @@ export const nilongTypes = [
       "关系回报",
       "自我压低"
     ],
-    "image": "/images/types/NL-THX.png"
+    "image": "/images/types/NL-THX.webp"
   },
   {
     "序号": 6,
@@ -105,7 +105,7 @@ export const nilongTypes = [
       "焦虑雷达",
       "防御性强"
     ],
-    "image": "/images/types/NL-OHNO.png"
+    "image": "/images/types/NL-OHNO.webp"
   },
   {
     "序号": 7,
@@ -123,7 +123,7 @@ export const nilongTypes = [
       "冲劲强",
       "后果后置"
     ],
-    "image": "/images/types/NL-GOGO.png"
+    "image": "/images/types/NL-GOGO.webp"
   },
   {
     "序号": 8,
@@ -141,7 +141,7 @@ export const nilongTypes = [
       "被看见需求",
       "氛围感"
     ],
-    "image": "/images/types/NL-SEXY.png"
+    "image": "/images/types/NL-SEXY.webp"
   },
   {
     "序号": 9,
@@ -159,7 +159,7 @@ export const nilongTypes = [
       "亲密渴望",
       "上头体质"
     ],
-    "image": "/images/types/NL-LOVE.png"
+    "image": "/images/types/NL-LOVE.webp"
   },
   {
     "序号": 10,
@@ -177,7 +177,7 @@ export const nilongTypes = [
       "照顾者",
       "边界感练习"
     ],
-    "image": "/images/types/NL-MUM.png"
+    "image": "/images/types/NL-MUM.webp"
   },
   {
     "序号": 11,
@@ -195,7 +195,7 @@ export const nilongTypes = [
       "伪装稳定",
       "内外反差"
     ],
-    "image": "/images/types/NL-FAKE.png"
+    "image": "/images/types/NL-FAKE.webp"
   },
   {
     "序号": 12,
@@ -213,7 +213,7 @@ export const nilongTypes = [
       "松弛防御",
       "选择省电"
     ],
-    "image": "/images/types/NL-OJBK.png"
+    "image": "/images/types/NL-OJBK.webp"
   },
   {
     "序号": 13,
@@ -231,7 +231,7 @@ export const nilongTypes = [
       "野路子",
       "生存直觉"
     ],
-    "image": "/images/types/NL-MALO.png"
+    "image": "/images/types/NL-MALO.webp"
   },
   {
     "序号": 14,
@@ -249,7 +249,7 @@ export const nilongTypes = [
       "讨好倾向",
       "脆弱隐藏"
     ],
-    "image": "/images/types/NL-JOKE.png"
+    "image": "/images/types/NL-JOKE.webp"
   },
   {
     "序号": 15,
@@ -267,7 +267,7 @@ export const nilongTypes = [
       "情绪外显",
       "惊叹体质"
     ],
-    "image": "/images/types/NL-WOC.png"
+    "image": "/images/types/NL-WOC.webp"
   },
   {
     "序号": 16,
@@ -285,10 +285,10 @@ export const nilongTypes = [
       "过度分析",
       "行动延迟"
     ],
-    "image": "/images/types/NL-THINK-1.png",
+    "image": "/images/types/NL-THINK-1.webp",
     "imageVariants": [
-      "/images/types/NL-THINK-1.png",
-      "/images/types/NL-THINK-2.png"
+      "/images/types/NL-THINK-1.webp",
+      "/images/types/NL-THINK-2.webp"
     ]
   },
   {
@@ -307,7 +307,7 @@ export const nilongTypes = [
       "讽刺防御",
       "低期待"
     ],
-    "image": "/images/types/NL-SHIT.png"
+    "image": "/images/types/NL-SHIT.webp"
   },
   {
     "序号": 18,
@@ -325,7 +325,7 @@ export const nilongTypes = [
       "回避恢复",
       "过载保护"
     ],
-    "image": "/images/types/NL-ZZZZ.png"
+    "image": "/images/types/NL-ZZZZ.webp"
   },
   {
     "序号": 19,
@@ -343,7 +343,7 @@ export const nilongTypes = [
       "嘴硬体面",
       "精神富养"
     ],
-    "image": "/images/types/NL-POOR.png"
+    "image": "/images/types/NL-POOR.webp"
   },
   {
     "序号": 20,
@@ -361,7 +361,7 @@ export const nilongTypes = [
       "能量筛选",
       "内在清净"
     ],
-    "image": "/images/types/NL-MONK.png"
+    "image": "/images/types/NL-MONK.webp"
   },
   {
     "序号": 21,
@@ -379,7 +379,7 @@ export const nilongTypes = [
       "直觉行动",
       "真诚离谱"
     ],
-    "image": "/images/types/NL-SB.png"
+    "image": "/images/types/NL-SB.webp"
   },
   {
     "序号": 22,
@@ -397,7 +397,7 @@ export const nilongTypes = [
       "安全距离",
       "被看见渴望"
     ],
-    "image": "/images/types/NL-SOLO.png"
+    "image": "/images/types/NL-SOLO.webp"
   },
   {
     "序号": 23,
@@ -415,7 +415,7 @@ export const nilongTypes = [
       "破局本能",
       "逆境生长"
     ],
-    "image": "/images/types/NL-FUCK.png"
+    "image": "/images/types/NL-FUCK.webp"
   },
   {
     "序号": 24,
@@ -433,7 +433,7 @@ export const nilongTypes = [
       "长期消耗",
       "恢复感受"
     ],
-    "image": "/images/types/NL-DEAD.png"
+    "image": "/images/types/NL-DEAD.webp"
   },
   {
     "序号": 25,
@@ -451,7 +451,7 @@ export const nilongTypes = [
       "自嘲保护",
       "小步恢复"
     ],
-    "image": "/images/types/NL-FW.png"
+    "image": "/images/types/NL-FW.webp"
   },
   {
     "序号": 26,
@@ -469,7 +469,7 @@ export const nilongTypes = [
       "感染力",
       "轻松化解"
     ],
-    "image": "/images/types/NL-HHHH.png"
+    "image": "/images/types/NL-HHHH.webp"
   },
   {
     "序号": 27,
@@ -487,7 +487,7 @@ export const nilongTypes = [
       "上头体质",
       "克制反弹"
     ],
-    "image": "/images/types/NL-DRUNK.png"
+    "image": "/images/types/NL-DRUNK.webp"
   },
   {
     "序号": 28,
@@ -505,7 +505,7 @@ export const nilongTypes = [
       "执行压迫",
       "东北狠活"
     ],
-    "image": "/images/types/NL-SIS.png"
+    "image": "/images/types/NL-SIS.webp"
   },
   {
     "序号": 29,
@@ -523,7 +523,7 @@ export const nilongTypes = [
       "被看见需求",
       "青春期抽象"
     ],
-    "image": "/images/types/NL-JIAHAO.png"
+    "image": "/images/types/NL-JIAHAO.webp"
   }
 ] as const;
 
