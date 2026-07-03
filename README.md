@@ -68,6 +68,19 @@ Root directory: /
 Node.js version: 20
 ```
 
+仓库里的 `wrangler.toml` 已经声明同样的 Pages 配置：
+
+```toml
+name = "nailongti"
+pages_build_output_dir = "dist"
+
+[build]
+command = "npm run build"
+
+[vars]
+NODE_VERSION = "20"
+```
+
 本项目不需要 `@cloudflare/vite-plugin`，也不需要 Worker 入口文件。
 
 ## 图片资源
