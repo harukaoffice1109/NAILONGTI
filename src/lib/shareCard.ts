@@ -1,4 +1,7 @@
+import QRCode from 'qrcode';
 import type { NilongType } from '../data/types';
+
+const SITE_URL = 'https://nailongti.pages.dev';
 
 export async function downloadShareCard(type: NilongType, tags: readonly string[], imageSrc?: string): Promise<void> {
   const canvas = document.createElement('canvas');
@@ -57,7 +60,9 @@ export async function downloadShareCard(type: NilongType, tags: readonly string[
 
   ctx.fillStyle = '#fff';
   ctx.font = '600 30px system-ui, sans-serif';
-  ctx.fillText('测测你是哪种离谱奶龙', 450, 1265);
+  ctx.fillText('测测你是哪种离谱奶龙', 390, 1265);
+
+  await drawQrCode(ctx, 645, 1210, 118);
 
   const link = document.createElement('a');
   link.download = `NailongTI-${type['奶龙TI_code']}.png`;
@@ -73,6 +78,28 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: n
   ctx.arcTo(x, y + height, x, y, radius);
   ctx.arcTo(x, y, x + width, y, radius);
   ctx.closePath();
+}
+
+async function drawQrCode(ctx: CanvasRenderingContext2D, x: number, y: number, size: number): Promise<void> {
+  const dataUrl = await QRCode.toDataURL(SITE_URL, {
+    errorCorrectionLevel: 'M',
+    margin: 1,
+    width: size,
+    color: {
+      dark: '#111827',
+      light: '#ffffff',
+    },
+  });
+
+  const qrImage = await loadImage(dataUrl);
+  ctx.fillStyle = '#ffffff';
+  roundRect(ctx, x - 8, y - 8, size + 16, size + 16, 18);
+  ctx.fill();
+  ctx.drawImage(qrImage, x, y, size, size);
+  ctx.fillStyle = '#fef3c7';
+  ctx.font = '700 18px system-ui, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('扫码开测', x + size / 2, y + size + 34);
 }
 
 function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines = 4): void {

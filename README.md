@@ -70,6 +70,8 @@ Node.js version: 20
 
 不要提交 `wrangler.toml`。GitHub 直连 Cloudflare Pages 时，让 Cloudflare 后台负责构建命令和输出目录；仓库里出现 `wrangler.toml` 可能触发 BETA 配置读取，导致跳过构建或校验失败。
 
+如果部署后页面一片空白，并且线上 HTML 里还出现 `<script type="module" src="/src/main.tsx"></script>`，说明 Cloudflare 发布的是仓库根目录，不是 Vite 构建产物。把 Build output directory 改成 `dist`，重新部署最新 commit。
+
 本项目不需要 `@cloudflare/vite-plugin`，也不需要 Worker 入口文件。
 
 ## 图片资源
