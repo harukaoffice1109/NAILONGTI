@@ -51,10 +51,13 @@ async function drawShareCard(type: NilongType, tags: readonly string[], imageSrc
   if (imageSrc) {
     try {
       const image = await loadImage(imageSrc);
+      ctx.fillStyle = '#fff7d6';
+      roundRect(ctx, 250, 470, 400, 400, 40);
+      ctx.fill();
       ctx.save();
       roundRect(ctx, 250, 470, 400, 400, 40);
       ctx.clip();
-      drawCoverImage(ctx, image, 250, 470, 400, 400);
+      drawContainImage(ctx, image, 250, 470, 400, 400);
       ctx.restore();
     } catch {
       // If loading fails, text-only share card still works.
@@ -90,23 +93,13 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, width: n
   ctx.closePath();
 }
 
-function drawCoverImage(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number): void {
-  const imageRatio = image.naturalWidth / image.naturalHeight;
-  const boxRatio = width / height;
-  let sx = 0;
-  let sy = 0;
-  let sw = image.naturalWidth;
-  let sh = image.naturalHeight;
-
-  if (imageRatio > boxRatio) {
-    sw = image.naturalHeight * boxRatio;
-    sx = (image.naturalWidth - sw) / 2;
-  } else {
-    sh = image.naturalWidth / boxRatio;
-    sy = (image.naturalHeight - sh) / 2;
-  }
-
-  ctx.drawImage(image, sx, sy, sw, sh, x, y, width, height);
+function drawContainImage(ctx: CanvasRenderingContext2D, image: HTMLImageElement, x: number, y: number, width: number, height: number): void {
+  const scale = Math.min(width / image.naturalWidth, height / image.naturalHeight);
+  const drawWidth = image.naturalWidth * scale;
+  const drawHeight = image.naturalHeight * scale;
+  const drawX = x + (width - drawWidth) / 2;
+  const drawY = y + (height - drawHeight) / 2;
+  ctx.drawImage(image, drawX, drawY, drawWidth, drawHeight);
 }
 
 async function drawQrCode(ctx: CanvasRenderingContext2D, x: number, y: number, size: number): Promise<void> {
