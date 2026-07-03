@@ -41,20 +41,20 @@ async function drawShareCard(type: NilongType, tags: readonly string[], imageSrc
   ctx.fillText('奶龙TI人格判决书', 450, 170);
 
   ctx.fillStyle = '#fde047';
-  ctx.font = '900 96px system-ui, sans-serif';
+  ctx.font = `900 ${fitFontSize(ctx, type['奶龙TI类型名'], 700, 94, 72)}px system-ui, sans-serif`;
   ctx.fillText(type['奶龙TI类型名'], 450, 315);
 
   ctx.fillStyle = '#fff';
-  ctx.font = '700 42px system-ui, sans-serif';
-  wrapText(ctx, type['一句话判词'], 450, 410, 680, 58);
+  ctx.font = '700 38px system-ui, sans-serif';
+  wrapText(ctx, type['一句话判词'], 450, 392, 690, 50, 2, true);
 
   if (imageSrc) {
     try {
       const image = await loadImage(imageSrc);
       ctx.save();
-      roundRect(ctx, 230, 465, 440, 440, 44);
+      roundRect(ctx, 250, 470, 400, 400, 40);
       ctx.clip();
-      drawCoverImage(ctx, image, 230, 465, 440, 440);
+      drawCoverImage(ctx, image, 250, 470, 400, 400);
       ctx.restore();
     } catch {
       // If loading fails, text-only share card still works.
@@ -62,21 +62,21 @@ async function drawShareCard(type: NilongType, tags: readonly string[], imageSrc
   }
 
   ctx.fillStyle = '#fff7ed';
-  ctx.font = '600 34px system-ui, sans-serif';
-  wrapText(ctx, type.description, 450, 965, 700, 42, 5);
+  ctx.font = '600 31px system-ui, sans-serif';
+  wrapText(ctx, type.description, 450, 930, 700, 40, 5, true);
 
   ctx.fillStyle = '#111827';
-  roundRect(ctx, 130, 1120, 560, 86, 40);
+  roundRect(ctx, 105, 1144, 505, 86, 40);
   ctx.fill();
   ctx.fillStyle = '#fde047';
-  ctx.font = '800 30px system-ui, sans-serif';
-  ctx.fillText(tags.join(' · ') || '抽象 · 奶味 · 变异', 410, 1175);
+  ctx.font = '800 28px system-ui, sans-serif';
+  wrapText(ctx, tags.join(' · ') || '抽象 · 奶味 · 变异', 357, 1198, 440, 34, 2, true);
 
   ctx.fillStyle = '#fff';
   ctx.font = '600 30px system-ui, sans-serif';
-  ctx.fillText('测测你是哪种离谱奶龙', 370, 1265);
+  ctx.fillText('测测你是哪种离谱奶龙', 335, 1280);
 
-  await drawQrCode(ctx, 650, 1194, 132);
+  await drawQrCode(ctx, 650, 1168, 142);
   return canvas;
 }
 
@@ -131,23 +131,44 @@ async function drawQrCode(ctx: CanvasRenderingContext2D, x: number, y: number, s
   ctx.fillText('扫码开测', x + size / 2, y + size + 30);
 }
 
-function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines = 4): void {
+function fitFontSize(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, maxSize: number, minSize: number): number {
+  for (let size = maxSize; size >= minSize; size -= 2) {
+    ctx.font = `900 ${size}px system-ui, sans-serif`;
+    if (ctx.measureText(text).width <= maxWidth) return size;
+  }
+  return minSize;
+}
+
+function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number, maxLines = 4, ellipsis = false): void {
   const chars = Array.from(text);
   let line = '';
   let lines = 0;
-  for (const char of chars) {
+  for (let index = 0; index < chars.length; index += 1) {
+    const char = chars[index];
     const testLine = line + char;
     if (ctx.measureText(testLine).width > maxWidth && line) {
+      if (ellipsis && lines >= maxLines - 1) {
+        ctx.fillText(trimToWidth(ctx, `${line}…`, maxWidth), x, y);
+        return;
+      }
       ctx.fillText(line, x, y);
       line = char;
       y += lineHeight;
       lines += 1;
-      if (lines >= maxLines - 1) break;
+      if (lines >= maxLines) return;
     } else {
       line = testLine;
     }
   }
   if (line) ctx.fillText(line, x, y);
+}
+
+function trimToWidth(ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string {
+  let next = text;
+  while (next.length > 1 && ctx.measureText(next).width > maxWidth) {
+    next = `${next.slice(0, -2)}…`;
+  }
+  return next;
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
