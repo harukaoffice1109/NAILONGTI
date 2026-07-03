@@ -68,15 +68,7 @@ Root directory: /
 Node.js version: 20
 ```
 
-仓库里的 `wrangler.toml` 只声明 Cloudflare Pages 支持的项目名、输出目录和变量；构建命令不要写进 `wrangler.toml`，要在 Cloudflare 后台填写。
-
-```toml
-name = "nailongti"
-pages_build_output_dir = "dist"
-
-[vars]
-NODE_VERSION = "20"
-```
+不要提交 `wrangler.toml`。GitHub 直连 Cloudflare Pages 时，让 Cloudflare 后台负责构建命令和输出目录；仓库里出现 `wrangler.toml` 可能触发 BETA 配置读取，导致跳过构建或校验失败。
 
 本项目不需要 `@cloudflare/vite-plugin`，也不需要 Worker 入口文件。
 
