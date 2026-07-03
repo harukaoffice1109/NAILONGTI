@@ -68,14 +68,11 @@ Root directory: /
 Node.js version: 20
 ```
 
-仓库里的 `wrangler.toml` 已经声明同样的 Pages 配置：
+仓库里的 `wrangler.toml` 只声明 Cloudflare Pages 支持的项目名、输出目录和变量；构建命令不要写进 `wrangler.toml`，要在 Cloudflare 后台填写。
 
 ```toml
 name = "nailongti"
 pages_build_output_dir = "dist"
-
-[build]
-command = "npm run build"
 
 [vars]
 NODE_VERSION = "20"
