@@ -86,7 +86,7 @@ function Home({ onStart, onTypes }: { onStart: () => void; onTypes: () => void }
         </div>
       </div>
       <div className="heroCard">
-        <img className="bigDragon" src="/images/types/NL-JIAHAO.png" alt="嘉豪奶" />
+        <img className="bigDragon" src="/images/types/NL-JIAHAO.webp" alt="嘉豪奶" />
         <h2>你的奶龙TI人格可能是</h2>
         <div className="ticker">奶逼龙 · 废奶 · 卧奶 · 孤奶 · 哈奶 · 草奶</div>
       </div>
